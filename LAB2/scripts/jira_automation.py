@@ -12,7 +12,11 @@ import base64
 import argparse
 import urllib.request
 import urllib.error
+import ssl
 from datetime import datetime, timedelta
+
+ctx = ssl._create_unverified_context()
+
 
 def get_auth_header(email, token):
     raw = f"{email}:{token}".encode("utf-8")
@@ -23,7 +27,7 @@ def jira_request(method, url, headers, payload=None):
     data = json.dumps(payload).encode("utf-8") if payload else None
     req = urllib.request.Request(url, data=data, headers=headers, method=method)
     try:
-        with urllib.request.urlopen(req) as resp:
+        with urllib.request.urlopen(req, context=ctx) as resp:
             status = resp.status
             body = resp.read().decode("utf-8")
             return status, json.loads(body) if body else {}
@@ -275,7 +279,7 @@ def main():
     end_sprint1 = now + timedelta(days=7)
 
     sprint1_payload = {
-        "name": "PHR Sprint 1 — Core Consent & Provider Gateway",
+        "name": "PHR Sprint 1",
         "startDate": now.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
         "endDate": end_sprint1.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
         "originBoardId": board_id,
@@ -322,7 +326,7 @@ def main():
             print("[+] Sprint 1 COMPLETED! Burndown chart generated.")
 
     sprint2_payload = {
-        "name": "PHR Sprint 2 — Alerts & Immutable Auditing",
+        "name": "PHR Sprint 2",
         "originBoardId": board_id,
         "goal": "Implement real-time patient alerts and append-only audit trail logging (FR-005, NFR-001, NFR-002)"
     }
