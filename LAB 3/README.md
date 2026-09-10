@@ -31,13 +31,13 @@ All deliverable files have been generated in your workspace directory:
 
 | File Name | Format | Description / Lab Requirement |
 | :--- | :--- | :--- |
+| **`LAB_3_DELIVERABLES.pdf`** | 2-Page PDF (300 DPI) | **Combined Final Submission:** Contains **only the 2 deliverables** (Deliverable 1: Component Diagram on Page 1, Deliverable 2: Written Justification on Page 2). |
 | **`component_diagram.png`** | PNG (High-Res 300 DPI) | **Deliverable 1:** UML 2.0 Component Diagram with 5 components, 4 ball-and-socket interfaces, layers, and protocols. |
 | **`component_diagram.pdf`** | Vector / High-Res PDF | **Deliverable 1:** High-resolution PDF version of the UML 2.0 Component Diagram. |
 | **`component_diagram.svg`** | Scalable Vector Graphic | Scalable vector diagram for web/digital viewing and embedding. |
 | **`component_diagram.drawio`** | XML / draw.io | Fully editable source file compatible with **draw.io / diagrams.net**. |
 | **`Architecture_Justification.docx`** | Microsoft Word (.docx) | **Deliverable 2:** Formal 1-page written architectural justification document matching the exact prompt structure. |
 | **`Architecture_Justification.pdf`** | 1-Page PDF (300 DPI) | **Deliverable 2:** Clean, 1-page PDF export of the written justification. |
-| **`Lab3_Complete_Submission.md`** | Markdown Documentation | Complete lab steps (Steps 1 to 6), trade-off analysis, interface schemas, and technical justifications. |
 
 ---
 

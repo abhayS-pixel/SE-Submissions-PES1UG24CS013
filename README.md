@@ -12,7 +12,7 @@
 |---|---|---|:---:|
 | [**LAB 1**](./LAB1) | Requirements Engineering & UML Use-Case Modelling | Requirements Table (`.docx`), Use-Case Diagram (`.png`, `.svg`), Use-Case Flow Specification (`.docx`) | Completed |
 | [**LAB 2**](./LAB2) | Agile Backlog Creation & Sprint Simulation in Jira | Agile Backlog & Epics, User Stories, Story Points (Fibonacci), Sprint 1 Simulation, Burndown Analysis, Reflection Q&A (`.docx`, `.md`, Jira Automation Script) | Completed |
-| [**LAB 3**](./LAB%203) | Component Modelling & Architectural Pattern Selection | UML Component Diagram (`.png`, `.pdf`, `.drawio`, `.svg`), Written Justification (`.docx`, `.pdf`), Complete System Architecture Report (`.md`) | Completed |
+| [**LAB 3**](./LAB%203) | Component Modelling & Architectural Pattern Selection | [**`LAB_3_DELIVERABLES.pdf`**](./LAB%203/LAB_3_DELIVERABLES.pdf) (Combined 2-Deliverables PDF), UML Component Diagram (`.png`, `.pdf`, `.drawio`), Written Justification (`.docx`, `.pdf`) | Completed |
 
 ---
 
