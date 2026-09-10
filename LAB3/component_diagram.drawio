@@ -1,0 +1,72 @@
+<mxfile host="app.diagrams.net" modified="2026-09-10T19:50:00.000Z" agent="Antigravity UML Generator" version="21.0.0" type="device">
+  <diagram id="coffee-kiosk-uml" name="Coffee Kiosk Component Diagram">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1400" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Presentation Layer -->
+        <mxCell id="layer_pres" value="&amp;lt;&amp;lt;layer&amp;gt;&amp;gt; Presentation Layer" style="swimlane;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#2B6CB0;strokeWidth=2;dashed=1;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="40" width="1500" height="220" as="geometry" />
+        </mxCell>
+        
+        <!-- UI Component -->
+        <mxCell id="comp_ui" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&#xa;&lt;b&gt;User Interface Component&lt;/b&gt;&#xa;Touchscreen Display &amp;amp; Customer Interaction UI&#xa;[Coffee Selection | Size Selection | Payment Screen]" style="shape=module;jettyWidth=8;jettyHeight=4;whiteSpace=wrap;html=1;fillColor=#EBF8FF;strokeColor=#2B6CB0;strokeWidth=2;" vertex="1" parent="layer_pres">
+          <mxGeometry x="450" y="50" width="600" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- Business Layer -->
+        <mxCell id="layer_biz" value="&amp;lt;&amp;lt;layer&amp;gt;&amp;gt; Business Layer" style="swimlane;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#D69E2E;strokeWidth=2;dashed=1;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="320" width="1500" height="520" as="geometry" />
+        </mxCell>
+
+        <!-- Order Manager Component -->
+        <mxCell id="comp_order" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&#xa;&lt;b&gt;Order Manager Component&lt;/b&gt;&#xa;Central Order Coordinator, State Machine &amp;amp; Workflow Engine&#xa;[Order State Machine | Pricing Calculator | Hardware Dispatcher]" style="shape=module;jettyWidth=8;jettyHeight=4;whiteSpace=wrap;html=1;fillColor=#FEFCBF;strokeColor=#D69E2E;strokeWidth=2;" vertex="1" parent="layer_biz">
+          <mxGeometry x="450" y="50" width="600" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- Payment Service Component -->
+        <mxCell id="comp_payment" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&#xa;&lt;b&gt;Payment Service Component&lt;/b&gt;&#xa;Encapsulated Credit Card Processing &amp;amp; POS Terminal Driver&#xa;[EMV/NFC Terminal Driver | PCI-DSS Tokenizer]" style="shape=module;jettyWidth=8;jettyHeight=4;whiteSpace=wrap;html=1;fillColor=#FAF5FF;strokeColor=#805AD5;strokeWidth=2;" vertex="1" parent="layer_biz">
+          <mxGeometry x="60" y="340" width="420" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- Receipt Printer Component -->
+        <mxCell id="comp_printer" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&#xa;&lt;b&gt;Receipt Printer Component&lt;/b&gt;&#xa;Thermal Printer Hardware Controller &amp;amp; Layout Engine&#xa;[ESC/POS Print Engine | Paper Status Telemetry]" style="shape=module;jettyWidth=8;jettyHeight=4;whiteSpace=wrap;html=1;fillColor=#FFFAF0;strokeColor=#DD6B20;strokeWidth=2;" vertex="1" parent="layer_biz">
+          <mxGeometry x="1020" y="340" width="420" height="130" as="geometry" />
+        </mxCell>
+
+        <!-- Data Layer -->
+        <mxCell id="layer_data" value="&amp;lt;&amp;lt;layer&amp;gt;&amp;gt; Data Layer" style="swimlane;whiteSpace=wrap;html=1;fillColor=#F8FAFC;strokeColor=#38A169;strokeWidth=2;dashed=1;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="50" y="900" width="1500" height="260" as="geometry" />
+        </mxCell>
+
+        <!-- Database Component -->
+        <mxCell id="comp_db" value="&amp;lt;&amp;lt;component&amp;gt;&amp;gt;&#xa;&lt;b&gt;Database Component&lt;/b&gt;&#xa;Embedded Relational Data Store (Menu Catalog, Pricing &amp;amp; Transaction Audit Log)&#xa;[Menu Catalog (3 Coffees) | Pricing Matrix (2 Sizes) | Order Audit Logs]" style="shape=module;jettyWidth=8;jettyHeight=4;whiteSpace=wrap;html=1;fillColor=#F0FFF4;strokeColor=#38A169;strokeWidth=2;" vertex="1" parent="layer_data">
+          <mxGeometry x="450" y="60" width="600" height="140" as="geometry" />
+        </mxCell>
+
+        <!-- Connectors & Interfaces -->
+        <!-- UI to Order Manager -->
+        <mxCell id="edge_ui_order" value="IOrderProcessing &amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&#xa;[API Call: submitOrder(), cancelOrder()]" style="endArrow=oval;endFill=0;startArrow=none;html=1;strokeWidth=2;strokeColor=#2B6CB0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="comp_ui" target="comp_order">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Order Manager to Payment Service -->
+        <mxCell id="edge_order_payment" value="IPaymentService &amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&#xa;[Synchronous Local IPC: authorizePayment()]" style="endArrow=oval;endFill=0;startArrow=none;html=1;strokeWidth=2;strokeColor=#805AD5;exitX=0.2;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="comp_order" target="comp_payment">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Order Manager to Receipt Printer -->
+        <mxCell id="edge_order_printer" value="IReceiptPrinter &amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&#xa;[ESC/POS over USB/Serial: printReceipt()]" style="endArrow=oval;endFill=0;startArrow=none;html=1;strokeWidth=2;strokeColor=#DD6B20;exitX=0.8;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="comp_order" target="comp_printer">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- Order Manager to Database -->
+        <mxCell id="edge_order_db" value="IDataAccess &amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&#xa;[SQL Queries / DAO: getMenuCatalog(), saveOrder()]" style="endArrow=oval;endFill=0;startArrow=none;html=1;strokeWidth=2;strokeColor=#38A169;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="comp_order" target="comp_db">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
