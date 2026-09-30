@@ -34,6 +34,11 @@ class Board:
         return sum(pos in self.mines for pos in self.neighbors(r, c))
 
     def reveal(self, start):
+        if start in self.flags or start in self.revealed:
+            return False
+        if start in self.mines:
+            return True
+
         stack = [start]
         hit_mine = False
         while stack:
@@ -59,4 +64,7 @@ class Board:
         return True
 
     def won(self):
-        return len(self.revealed) == self.rows * self.cols - self.mine_total
+        # Win only when every non-mine cell has been revealed
+        safe_cells = {(r, c) for r in range(self.rows) for c in range(self.cols)
+                      if (r, c) not in self.mines}
+        return safe_cells <= self.revealed

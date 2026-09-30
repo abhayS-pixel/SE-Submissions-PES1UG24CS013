@@ -46,11 +46,22 @@ class Minesweeper:
                 print("Outside the board.")
                 continue
 
+            pos = (r, c)
+
             if parts[0] == "f":
-                self.board.toggle_flag((r, c))
+                if not self.board.toggle_flag(pos):
+                    print("Can't flag a revealed cell.")
                 continue
 
-            if self.board.reveal((r, c)):
+            # Reveal command
+            if pos in self.board.flags:
+                print("That cell is flagged. Remove the flag first.")
+                continue
+            if pos in self.board.revealed:
+                print("That cell is already revealed.")
+                continue
+
+            if self.board.reveal(pos):
                 self.display(reveal_mines=True)
                 print("BOOM! You hit a mine.")
                 return
