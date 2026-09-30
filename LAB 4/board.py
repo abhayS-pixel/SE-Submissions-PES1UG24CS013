@@ -1,5 +1,12 @@
 import random
 
+# (rows, cols, mines) for each difficulty, kept in memory only
+DIFFICULTIES = {
+    "easy": (6, 6, 6),
+    "medium": (9, 9, 12),
+    "hard": (12, 12, 30),
+}
+
 DEFAULT_ROWS = 6
 DEFAULT_COLS = 6
 DEFAULT_MINES = 6
@@ -7,6 +14,8 @@ DEFAULT_MINES = 6
 
 class Board:
     def __init__(self, rows=DEFAULT_ROWS, cols=DEFAULT_COLS, mines=DEFAULT_MINES):
+        if mines >= rows * cols:
+            raise ValueError("Too many mines for this board size.")
         self.rows = rows
         self.cols = cols
         self.mine_total = mines
