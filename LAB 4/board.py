@@ -43,25 +43,26 @@ class Board:
         return sum(pos in self.mines for pos in self.neighbors(r, c))
 
     def reveal(self, start):
+        """Reveal a cell (flood-filling zeros).
+        Returns (hit_mine, newly_revealed_count)."""
         if start in self.flags or start in self.revealed:
-            return False
+            return False, 0
         if start in self.mines:
-            return True
+            return True, 0
 
         stack = [start]
-        hit_mine = False
+        count = 0
         while stack:
             pos = stack.pop()
-            if pos in self.revealed or pos in self.flags:
+            if pos in self.revealed or pos in self.flags or pos in self.mines:
                 continue
-            r, c = pos
             self.revealed.add(pos)
-            if pos in self.mines:
-                hit_mine = True
-                continue
+            count += 1
+            r, c = pos
             if self.adjacent_mines(r, c) == 0:
-                stack.extend(n for n in self.neighbors(r, c) if n not in self.revealed)
-        return hit_mine
+                stack.extend(n for n in self.neighbors(r, c)
+                             if n not in self.revealed)
+        return False, count
 
     def toggle_flag(self, pos):
         if pos in self.revealed:

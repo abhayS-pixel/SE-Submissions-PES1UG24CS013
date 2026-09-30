@@ -29,8 +29,6 @@ class Minesweeper:
                     ch = "F"
                 elif pos not in b.revealed:
                     ch = "#"
-                elif pos in b.mines:
-                    ch = "*"
                 else:
                     ch = str(b.adjacent_mines(r, c))
                 cells.append(f"{ch:>{w}}")
@@ -43,8 +41,10 @@ class Minesweeper:
         print(f"Mode: {self.difficulty} "
               f"({self.board.rows}x{self.board.cols}, {self.board.mine_total} mines)")
         print("Commands: r row col | f row col | q")
+
         while True:
             self.display()
+            print(f"Flags left: {self.board.mine_total - len(self.board.flags)}")
             raw = input("> ").strip().lower()
             if raw == "q":
                 return
@@ -64,7 +64,10 @@ class Minesweeper:
             pos = (r, c)
 
             if parts[0] == "f":
-                if not self.board.toggle_flag(pos):
+                if self.board.toggle_flag(pos):
+                    state = "placed on" if pos in self.board.flags else "removed from"
+                    print(f"Flag {state} ({r + 1}, {c + 1}).")
+                else:
                     print("Can't flag a revealed cell.")
                 continue
 
@@ -76,11 +79,19 @@ class Minesweeper:
                 print("That cell is already revealed.")
                 continue
 
-            if self.board.reveal(pos):
+            hit_mine, count = self.board.reveal(pos)
+            if hit_mine:
                 self.display(reveal_mines=True)
                 print("BOOM! You hit a mine.")
                 return
+
+            # One message per player action, not per flood-fill step
+            if count == 1:
+                print("Revealed 1 cell.")
+            else:
+                print(f"Opened an area: {count} cells revealed.")
+
             if self.board.won():
                 self.display()
-                print("You cleared the board!")
+                print("You cleared the board! You win!")
                 return
