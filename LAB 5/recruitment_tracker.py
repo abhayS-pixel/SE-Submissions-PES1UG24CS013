@@ -5,7 +5,11 @@ import logging
 import operator
 import sqlite3
 
-SCHEMA = "CREATE TABLE applicants (id INTEGER PRIMARY KEY, name TEXT, role TEXT, expected_salary INTEGER, status TEXT)"
+SCHEMA = (
+    "CREATE TABLE applicants ("
+    "id INTEGER PRIMARY KEY, name TEXT, role TEXT, "
+    "expected_salary INTEGER, status TEXT)"
+)
 
 _BINARY_OPS = {
     ast.Add: operator.add,
@@ -24,13 +28,15 @@ def create_connection(database=":memory:"):
 
 
 def _evaluate(node):
-    """Evaluate a parsed arithmetic expression made only of numbers and + - * /."""
+    """Evaluate an arithmetic expression of numbers and + - * /."""
     if isinstance(node, ast.Constant) and type(node.value) in (int, float):
         return node.value
     if isinstance(node, ast.BinOp) and type(node.op) in _BINARY_OPS:
-        return _BINARY_OPS[type(node.op)](_evaluate(node.left), _evaluate(node.right))
+        operation = _BINARY_OPS[type(node.op)]
+        return operation(_evaluate(node.left), _evaluate(node.right))
     if isinstance(node, ast.UnaryOp) and type(node.op) in _UNARY_OPS:
-        return _UNARY_OPS[type(node.op)](_evaluate(node.operand))
+        operation = _UNARY_OPS[type(node.op)]
+        return operation(_evaluate(node.operand))
     raise ValueError("unsupported expression in salary rule")
 
 
@@ -45,7 +51,11 @@ def parse_salary_rule(salary_rule):
 
 def add_applicant(conn, name, role, expected_salary, status="applied"):
     """Insert a new applicant."""
-    conn.execute("INSERT INTO applicants (name, role, expected_salary, status) VALUES (?, ?, ?, ?)", (name, role, expected_salary, status))
+    conn.execute(
+        "INSERT INTO applicants (name, role, expected_salary, status) "
+        "VALUES (?, ?, ?, ?)",
+        (name, role, expected_salary, status),
+    )
     conn.commit()
 
 
@@ -54,7 +64,10 @@ def shortlist(conn, role, salary_rule):
 
     An empty list is returned when nobody qualifies.
     """
-    rows = conn.execute("SELECT name, expected_salary FROM applicants WHERE role = ?", (role,)).fetchall()
+    rows = conn.execute(
+        "SELECT name, expected_salary FROM applicants WHERE role = ?",
+        (role,),
+    ).fetchall()
     limit = parse_salary_rule(salary_rule)
     return [name for name, salary in rows if salary <= limit]
 
@@ -62,7 +75,10 @@ def shortlist(conn, role, salary_rule):
 def update_status(conn, applicant_id, status):
     """Update an applicant's status. Return True if a row was changed."""
     try:
-        cursor = conn.execute("UPDATE applicants SET status = ? WHERE id = ?", (status, applicant_id))
+        cursor = conn.execute(
+            "UPDATE applicants SET status = ? WHERE id = ?",
+            (status, applicant_id),
+        )
         conn.commit()
     except sqlite3.Error:
         logging.exception("Could not update applicant %s", applicant_id)
@@ -74,12 +90,17 @@ def export_report(conn, path):
     """Write name, role and status of every applicant to a CSV file."""
     with open(path, "w", encoding="utf-8", newline="") as report:
         writer = csv.writer(report, lineterminator="\n")
-        writer.writerows(conn.execute("SELECT name, role, status FROM applicants"))
+        writer.writerows(
+            conn.execute("SELECT name, role, status FROM applicants")
+        )
 
 
 def count_by_status(conn, status):
     """Return how many applicants currently have the given status."""
-    return conn.execute("SELECT COUNT(*) FROM applicants WHERE status = ?", (status,)).fetchone()[0]
+    row = conn.execute(
+        "SELECT COUNT(*) FROM applicants WHERE status = ?", (status,)
+    ).fetchone()
+    return row[0]
 
 
 def main():
